@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Swangentic — Stash: Personal Finance. Offline. Private.</title>
+<meta name="description" content="Stash by Swangentic — a premium, 100% offline personal finance app for Windows. No cloud, no subscription, no account." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://swangentic.com/" />
+<meta property="og:title" content="Swangentic — Stash: Personal Finance. Offline. Private." />
+<meta property="og:description" content="Stash by Swangentic — a premium, 100% offline personal finance app for Windows. No cloud, no subscription, no account." />
+<meta property="og:image" content="https://swangentic.com/web/swan-poster.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@swangentic" />
+<meta name="twitter:title" content="Swangentic — Stash: Personal Finance. Offline. Private." />
+<meta name="twitter:description" content="Stash by Swangentic — a premium, 100% offline personal finance app for Windows. No cloud, no subscription, no account." />
+<meta name="twitter:image" content="https://swangentic.com/web/swan-poster.jpg" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ─── Reset & Tokens ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:       #0A0A09;
+  --black-soft:  #111110;
+  --panel:       #16150F;
+  --gold:        #C6A15B;
+  --gold-bright: #E1C589;
+  --gold-dim:    #8A703F;
+  --gold-faint:  rgba(198,161,91,0.07);
+  --gold-border: rgba(198,161,91,0.18);
+  --white:       #F4F1EA;
+  --muted:       #A6A192;
+  --muted-dim:   #7A7568;
+  --success:     #5FA97C;
+  --danger:      #C0604E;
+  --line:        rgba(244,241,234,0.08);
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; }
+button { font-family: inherit; }
+svg { display: block; }
+
+/* ─── Typography ─────────────────────────────────────────────── */
+.display {
+  font-family: 'Bodoni Moda', serif;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.display-italic {
+  font-family: 'Bodoni Moda', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+.mono { font-family: 'JetBrains Mono', monospace; }
+.eyebrow {
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow .rule { width: 24px; height: 1px; background: var(--gold-dim); display: inline-block; }
+
+/* ─── Swan icon mark ─────────────────────────────────────────── */
+.swan-mark { fill: var(--gold); color: var(--gold); }
+.swan-watermark {
+  position: absolute;
+  fill: var(--gold);
+  color: var(--gold);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+/* ─── Nav ────────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%;
+  height: 68px;
+  background: rgba(10,10,9,0);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+nav::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 160px;
+  background: linear-gradient(180deg, rgba(6,6,5,0.7) 0%, rgba(6,6,5,0.35) 55%, transparent 100%);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+nav.scrolled::before { opacity: 0; }
+nav.scrolled {
+  background: rgba(10,10,9,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--gold-border);
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo-icon {
+  width: 34px; height: 34px;
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--black-soft);
+}
+.nav-logo-icon svg { width: 18px; height: 18px; }
+.nav-wordmark {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.nav-by {
+  font-size: 10px;
+  color: var(--gold-dim);
+  font-family: 'Jost', sans-serif;
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 36px;
+  list-style: none;
+}
+.nav-links a:not(.btn-nav) {
+  font-size: 12px; color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:not(.btn-nav):hover { color: var(--white); }
+.btn-nav {
+  padding: 10px 22px;
+  color: var(--gold);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  border: 1px solid var(--gold-border);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-nav:hover { background: var(--gold-faint); border-color: var(--gold); }
+
+/* ─── Hero ───────────────────────────────────────────────────── */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-video-wrap {
+  position: absolute; inset: 0; z-index: -2;
+  background: #050504;
+}
+.hero-video-wrap video, .hero-video-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  position: absolute; inset: 0;
+}
+.hero-scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(6,6,5,0.55) 0%, rgba(6,6,5,0.35) 30%, rgba(6,6,5,0.55) 65%, rgba(6,6,5,0.92) 100%),
+    linear-gradient(90deg, rgba(6,6,5,0.55) 0%, rgba(6,6,5,0.05) 45%, rgba(6,6,5,0.05) 55%, rgba(6,6,5,0.55) 100%);
+}
+.hero-top {
+  position: absolute; top: 110px; left: 5%;
+}
+.hero-body {
+  padding: 0 5% 64px;
+  display: flex;
+  flex-direction: column;
+}
+.hero-wordmark-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 26px);
+}
+.hero-wordmark {
+  font-size: clamp(38px, 8.6vw, 118px);
+  color: var(--white);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.hero-wordmark-icon {
+  width: clamp(24px, 3.4vw, 44px);
+  height: clamp(24px, 3.4vw, 44px);
+  flex-shrink: 0;
+}
+.hero-wordmark-icon svg { width: 100%; height: 100%; }
+.hero-tagline {
+  font-size: clamp(17px, 1.6vw, 22px);
+  color: var(--white);
+  margin: 18px 0 36px;
+  max-width: 520px;
+}
+.hero-cta {
+  display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 30px;
+  color: var(--white);
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  border: 1px solid rgba(244,241,234,0.4);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-primary:hover { background: rgba(244,241,234,0.08); border-color: var(--white); }
+.btn-text {
+  font-size: 12px; color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 3px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.btn-text:hover { color: var(--white); border-color: var(--muted); }
+.hero-foot {
+  position: absolute; bottom: 28px; left: 5%; right: 5%;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.hero-caption {
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hero-scroll {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.hero-scroll svg { width: 12px; height: 12px; animation: bob 2s ease-in-out infinite; }
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll svg { animation: none; }
+}
+
+/* ─── Section Base ───────────────────────────────────────────── */
+section { padding: 120px 5%; position: relative; }
+.section-alt { background: var(--black-soft); }
+.section-title {
+  font-size: clamp(34px, 4vw, 52px);
+  margin-bottom: 18px;
+  max-width: 640px;
+}
+.section-sub {
+  font-size: 17px; color: var(--muted);
+  max-width: 520px; line-height: 1.7;
+}
+.section-head { margin-bottom: 64px; }
+.divider-motif {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; margin-bottom: 20px;
+}
+.divider-motif .line { width: 48px; height: 1px; background: var(--gold-dim); }
+.divider-motif svg { width: 22px; height: 22px; }
+
+/* ─── Privacy Quote ──────────────────────────────────────────── */
+#privacy {
+  text-align: center;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 100px 5%;
+}
+#privacy .display-italic {
+  font-size: clamp(28px, 3.6vw, 46px);
+  color: var(--white);
+  max-width: 880px;
+  margin: 0 auto 22px;
+}
+#privacy .display-italic em { color: var(--gold); font-style: italic; }
+#privacy p {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ─── Features ───────────────────────────────────────────────── */
+#features .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1px;
+  margin-top: 56px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+.feature-card {
+  background: var(--black);
+  padding: 36px 32px 40px;
+  transition: background 0.25s;
+}
+.feature-card:hover { background: var(--black-soft); }
+.feature-icon {
+  width: 40px; height: 40px;
+  margin-bottom: 22px;
+}
+.feature-icon svg {
+  width: 100%; height: 100%;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.feature-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 19px; font-weight: 600;
+  color: var(--white); margin-bottom: 12px;
+}
+.feature-desc {
+  font-size: 14px; color: var(--muted); line-height: 1.7;
+}
+
+/* ─── App Preview ────────────────────────────────────────────── */
+#preview { text-align: center; }
+#preview .section-head { margin-left: auto; margin-right: auto; }
+#preview .section-sub { margin: 0 auto; }
+.preview-screens {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 24px;
+  margin-top: 56px;
+  text-align: left;
+}
+.screen-frame {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--gold-border);
+  background: var(--black-soft);
+}
+.screen-bar {
+  background: var(--panel);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--gold-border);
+}
+.screen-dots { display: flex; gap: 5px; }
+.screen-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-dim); opacity: 0.5; }
+.screen-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--gold-dim);
+  flex: 1; text-align: center;
+}
+.screen-body { padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cc-hub-title { font-size: 10px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.cc-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--panel); border-radius: 4px; border: 1px solid var(--line); margin-bottom: 8px; }
+.cc-icon { width: 30px; height: 30px; background: var(--gold-faint); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cc-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.6; }
+.cc-info { flex: 1; }
+.cc-name { font-size: 12px; font-weight: 500; color: var(--white); }
+.cc-util { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.util-bar { flex: 1; height: 3px; background: rgba(244,241,234,0.08); border-radius: 2px; max-width: 80px; }
+.util-fill { height: 100%; border-radius: 2px; }
+.cc-pct { font-size: 10px; font-family: 'JetBrains Mono', monospace; }
+.cc-amt { font-size: 12px; font-family: 'JetBrains Mono', monospace; color: var(--gold); font-weight: 600; }
+.budget-title { font-size: 10px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+.budget-row { margin-bottom: 12px; }
+.budget-row-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+.budget-cat { font-size: 11px; color: var(--white); }
+.budget-nums { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--muted); }
+.budget-bar { height: 5px; background: rgba(244,241,234,0.08); border-radius: 3px; overflow: hidden; }
+.budget-fill { height: 100%; border-radius: 3px; }
+
+/* ─── Pricing ────────────────────────────────────────────────── */
+#pricing { text-align: center; }
+.pricing-card {
+  max-width: 460px; margin: 56px auto 0;
+  background: var(--black-soft);
+  border: 1px solid var(--gold-border);
+  text-align: left;
+}
+.pricing-header { padding: 40px 40px 28px; border-bottom: 1px solid var(--line); }
+.pricing-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em; color: var(--gold-dim);
+  text-transform: uppercase; margin-bottom: 22px; display: block;
+}
+.pricing-amount { display: flex; align-items: flex-start; gap: 4px; }
+.pricing-dollar { font-family: 'JetBrains Mono', monospace; font-size: 26px; color: var(--gold-dim); margin-top: 10px; }
+.pricing-number { font-family: 'Bodoni Moda', serif; font-size: 68px; font-weight: 700; color: var(--gold); line-height: 1; }
+.pricing-once { font-size: 13px; color: var(--muted); margin-top: 14px; }
+.pricing-once span { color: var(--gold-dim); font-family: 'JetBrains Mono', monospace; }
+.pricing-body { padding: 32px 40px 40px; }
+.pricing-features { list-style: none; margin-bottom: 32px; }
+.pricing-features li {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 0; font-size: 14.5px; color: var(--white);
+  border-bottom: 1px solid var(--line);
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pricing-check { width: 16px; height: 16px; flex-shrink: 0; }
+.pricing-check svg { width: 100%; height: 100%; stroke: var(--success); fill: none; stroke-width: 2; }
+.btn-buy {
+  display: block; width: 100%; text-align: center;
+  padding: 17px;
+  background: var(--gold); color: var(--black);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  border: none; border-radius: 3px; cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-buy:hover { opacity: 0.88; }
+.pricing-note { font-size: 12px; color: var(--muted-dim); margin-top: 16px; text-align: center; }
+
+/* ─── About ──────────────────────────────────────────────────── */
+#about {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 90px;
+  align-items: center;
+  background: #000014;
+}
+.about-content p + p { margin-top: 16px; }
+.about-visual { position: relative; }
+.about-card {
+  background: var(--black-soft);
+  border: 1px solid var(--gold-border);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.about-stat { margin-bottom: 26px; position: relative; z-index: 1; }
+.about-stat:last-child { margin-bottom: 0; }
+.about-stat-num { font-family: 'Bodoni Moda', serif; font-size: 38px; color: var(--gold); }
+.about-stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* ─── About: blue/violet duotone identity (scoped to #about only) ──── */
+#about .eyebrow { color: #4CA6FA; }
+#about .eyebrow .rule { background: #4CA6FA; }
+#about .section-title {
+  background: linear-gradient(120deg, #00B4FA, #5028FA);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+#about .about-card { border-color: rgba(80,40,252,0.25); }
+#about .about-stat-num { color: #4CA6FA; }
+#about .swan-watermark { fill: url(#swan-duotone-gradient); stroke: url(#swan-duotone-gradient); opacity: 0.14; }
+
+/* ─── FAQ ────────────────────────────────────────────────────── */
+#faq .faq-wrap { max-width: 780px; margin: 0 auto; }
+.faq-grid { margin-top: 48px; display: flex; flex-direction: column; }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-q {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 4px;
+  background: none; border: none; cursor: pointer;
+  text-align: left;
+  font-family: 'Jost', sans-serif;
+  font-size: 15.5px; font-weight: 500;
+  color: var(--white);
+}
+.faq-q:hover { color: var(--gold); }
+.faq-arrow { font-size: 20px; color: var(--gold); transition: transform 0.25s; flex-shrink: 0; font-weight: 300; }
+.faq-item.open .faq-arrow { transform: rotate(45deg); }
+.faq-a {
+  display: none;
+  padding: 0 4px 24px;
+  font-size: 14.5px; color: var(--muted);
+  line-height: 1.75;
+  max-width: 640px;
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ─── Final CTA ──────────────────────────────────────────────── */
+#download {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  padding: 140px 5%;
+  border-top: 1px solid var(--line);
+}
+.download-bg { position: absolute; inset: 0; z-index: 0; opacity: 0.28; }
+.download-bg video { width: 100%; height: 100%; object-fit: cover; }
+.download-scrim { position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(10,10,9,0.55) 0%, rgba(10,10,9,0.94) 100%); }
+#download > * { position: relative; z-index: 2; }
+.version-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 32px;
+}
+#download .display { font-size: clamp(38px, 5.5vw, 64px); margin-bottom: 22px; }
+#download p { font-size: 17px; color: var(--muted); max-width: 480px; margin: 0 auto 40px; }
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+footer {
+  background: var(--black);
+  border-top: 1px solid var(--line);
+  padding: 36px 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-left { display: flex; align-items: center; gap: 12px; font-size: 12.5px; color: var(--muted); }
+.footer-left svg { width: 20px; height: 20px; flex-shrink: 0; }
+.footer-left strong { color: var(--gold-dim); font-weight: 500; }
+.footer-right { display: flex; gap: 26px; }
+.footer-right a { font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
+.footer-right a:hover { color: var(--white); }
+.footer-social { display: flex; align-items: center; gap: 18px; }
+.footer-social a { display: flex; align-items: center; color: var(--muted); transition: color 0.2s; }
+.footer-social a:hover { color: var(--gold); }
+.footer-social svg { width: 16px; height: 16px; stroke: currentColor; }
+
+/* ─── Reveal ─────────────────────────────────────────────────── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  #about { grid-template-columns: 1fr; gap: 48px; }
+  .about-visual { order: -1; }
+  .preview-screens { grid-template-columns: 1fr; }
+  nav .nav-links > li:not(:last-child) { display: none; }
+  .hero-top { top: 90px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 520px) {
+  section { padding: 88px 6%; }
+  .hero-cta { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .hero-foot { flex-direction: column; align-items: flex-start; gap: 10px; bottom: 24px; }
+  .hero-wordmark-icon { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── Swan icon defs (reused across the page) ─────────────────── -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="swan-duotone-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00B4FA"/>
+      <stop offset="100%" stop-color="#5028FA"/>
+    </linearGradient>
+    <symbol id="swan-icon" viewBox="0 0 140 115">
+      <ellipse cx="90" cy="86" rx="42" ry="17"/>
+      <path d="M56 74 C36 58 38 30 58 20 C70 14 66 6 56 2" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="54" cy="6" r="8.5"/>
+      <path d="M48 3 L28 7 L49 12 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ─── Nav ──────────────────────────────────────────────────── -->
+<nav id="mainNav">
+  <div class="nav-logo">
+    <div class="nav-logo-icon"><svg viewBox="0 0 100 100" class="swan-mark"><use href="#swan-icon"/></svg></div>
+    <div>
+      <div class="nav-wordmark">Swangentic</div>
+      <div class="nav-by">Stash · Windows App</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#pricing" class="btn-nav">Get Stash</a></li>
+  </ul>
+</nav>
+
+<!-- ─── Hero ─────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-video-wrap">
+    <video id="heroVideo" autoplay muted loop playsinline poster="web/swan-poster.jpg">
+      <source src="web/swan-hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+      <source src="web/swan-hero.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-scrim"></div>
+
+  <div class="hero-top">
+    <div class="eyebrow"><span class="rule"></span> Windows Desktop App · v1.9.8</div>
+  </div>
+
+  <div class="hero-body">
+    <div class="hero-wordmark-row">
+      <div class="hero-wordmark display">Swangentic</div>
+      <div class="hero-wordmark-icon"><svg viewBox="0 0 100 100" class="swan-mark"><use href="#swan-icon"/></svg></div>
+    </div>
+
+    <p class="hero-tagline display-italic">Home of Stash — personal finance. Offline. Private.</p>
+
+    <div class="hero-cta">
+      <a href="#pricing" class="btn-primary">Get Stash — $24.99 →</a>
+      <a href="#preview" class="btn-text">View the app</a>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <div class="hero-caption">Stash · Windows 10/11 Desktop App</div>
+    <div class="hero-scroll">
+      Scroll
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Privacy Quote ──────────────────────────────────────────── -->
+<section id="privacy" class="reveal">
+  <p class="display-italic">Your financial data belongs to you — not <em>a server farm</em> in another state.</p>
+  <p>Stash runs entirely on your Windows PC. There is no cloud sync, no account to create, no data leaving your machine. Ever.</p>
+</section>
+
+<!-- ─── Features ─────────────────────────────────────────────── -->
+<section id="features">
+  <div class="section-head reveal">
+    <div class="eyebrow" style="margin-bottom:20px;"><span class="rule"></span> What's Inside</div>
+    <h2 class="display section-title">Everything you need.<br>Nothing you don't.</h2>
+    <p class="section-sub">Built for people who want to actually understand their money — not just track it.</p>
+  </div>
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></div>
+      <div class="feature-title">Bills &amp; Account Tracking</div>
+      <div class="feature-desc">Track every bill with automatic status updates — Active, Pending, Overdue, or Paid. Auto-advances due dates on recurring bills so you never have to think about it.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg></div>
+      <div class="feature-title">Credit Card Hub</div>
+      <div class="feature-desc">Dedicated hub for all your cards. Utilization bars, statement payment flow, and a full view of which services charge through each card — including wallet chains like PayPal.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2h1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V8Z"/><circle cx="17" cy="14" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+      <div class="feature-title">Wallet Tracking</div>
+      <div class="feature-desc">Model real-world payment chains — Netflix bills PayPal, PayPal bills Chase. Stash follows the chain so your credit card hub shows true load including indirect charges.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
+      <div class="feature-title">Savings Goals</div>
+      <div class="feature-desc">Set goals with target amounts and deadlines. Track contributions over time. See projected completion dates based on your current pace.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M12 20V4M20 20v-7M2 20h20"/></svg></div>
+      <div class="feature-title">Budget Planning</div>
+      <div class="feature-desc">Set monthly limits by spending category. Visual progress bars show where you stand. A badge on the nav warns you the moment any category goes over.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v5h5M9 13h6M9 16.5h6"/></svg></div>
+      <div class="feature-title">PDF Reports &amp; Statements</div>
+      <div class="feature-desc">Generate branded monthly statements and stats reports as PDFs — ready to print, save, or share. All generated locally, no upload required.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 8a2 2 0 0 1 2-2h1.2l1-1.6A1.5 1.5 0 0 1 9.5 3.6h5a1.5 1.5 0 0 1 1.3.8L16.8 6H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+      <div class="feature-title">OCR Bill Scanning</div>
+      <div class="feature-desc">Scan a photo or PDF of a bill and Stash extracts the name, amount, and due date automatically. Supports JPG, PNG, and PDF files.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M7.5 10.5V7a4.5 4.5 0 0 1 9 0v3.5"/><circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/></svg></div>
+      <div class="feature-title">Encrypted Backups</div>
+      <div class="feature-desc">Back up your entire Stash database to an encrypted file using AES-256-GCM. Restore it on any Windows machine. Your password, your keys.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.9 1.5-1.9-.2-.6-.6-1.1-.6-1.7 0-.9.7-1.6 1.6-1.6h2a4 4 0 0 0 4-4A9 9 0 0 0 12 3Z"/><circle cx="7.5" cy="10.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="10" cy="7" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="7.5" r="1.1" fill="currentColor" stroke="none"/><circle cx="17" cy="11" r="1.1" fill="currentColor" stroke="none"/></svg></div>
+      <div class="feature-title">Dark Mode + 6 Accent Colors</div>
+      <div class="feature-desc">Full dark and light mode with six accent color presets. Stash looks premium regardless of your preference — ocean, forest, sunset, rose, violet, or slate.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M9 8V7a1 1 0 0 1 1-1h1M15 8V7a1 1 0 0 0-1-1h-1M9 14v1a1 1 0 0 0 1 1h1M15 14v1a1 1 0 0 1-1 1h-1"/></svg></div>
+      <div class="feature-title">Scan from Phone</div>
+      <div class="feature-desc">Snap a bill or receipt with your phone camera — no app to install. Stash generates a QR code, your phone browser handles the rest, and the photo lands straight in the OCR scanner.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+      <div class="feature-title">Net Worth Tracking</div>
+      <div class="feature-desc">Watch your net worth move over time across every account, loan, and card — one number that tells you if you're actually getting ahead.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M9 7H7a4 4 0 0 0 0 8h2"/><path d="M15 7h2a4 4 0 0 1 0 8h-2"/><path d="M8 11h8"/></svg></div>
+      <div class="feature-title">Funding Chain Visualization</div>
+      <div class="feature-desc">See exactly how a bill gets paid — Netflix charges PayPal, PayPal draws from Chase — mapped end to end instead of buried in account notes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── App Preview ───────────────────────────────────────────── -->
+<section id="preview" class="section-alt">
+  <div class="section-head reveal">
+    <div class="eyebrow" style="margin-bottom:20px;"><span class="rule"></span> App Preview</div>
+    <h2 class="display section-title" style="margin-left:auto;margin-right:auto;">Built to look as good<br>as it works.</h2>
+    <p class="section-sub">Every screen is designed with the same care as the features behind it.</p>
+  </div>
+  <div class="preview-screens reveal">
+    <div class="screen-frame">
+      <div class="screen-bar">
+        <div class="screen-dots"><div class="screen-dot"></div><div class="screen-dot"></div><div class="screen-dot"></div></div>
+        <div class="screen-label">Credit Card Hub</div>
+      </div>
+      <div class="screen-body">
+        <div class="cc-hub-title">Credit Card Hub <span style="margin-left:auto;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;">2 cards · $425.00 due</span></div>
+        <div class="cc-row">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg></div>
+          <div class="cc-info">
+            <div class="cc-name">Chase Sapphire</div>
+            <div class="cc-util">
+              <div class="util-bar"><div class="util-fill" style="width:42%;background:#C68A3D;"></div></div>
+              <span class="cc-pct" style="color:#C68A3D;">42%</span>
+              <span style="font-size:10px;color:var(--muted);">$840 / $2,000</span>
+            </div>
+            <div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;">
+              <span style="font-size:9px;background:var(--gold-faint);border:1px solid var(--gold-border);border-radius:2px;padding:2px 7px;color:var(--muted);">Netflix $15.99</span>
+              <span style="font-size:9px;background:var(--gold-faint);border:1px solid var(--gold-border);border-radius:2px;padding:2px 7px;color:var(--muted);">Spotify $9.99</span>
+            </div>
+          </div>
+          <div class="cc-amt">$263.00</div>
+        </div>
+        <div class="cc-row" style="background:rgba(95,169,124,0.05);border-color:rgba(95,169,124,0.2);">
+          <div class="cc-icon" style="background:rgba(95,169,124,0.1);"><svg viewBox="0 0 24 24" style="stroke:var(--success);"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="cc-info">
+            <div class="cc-name" style="display:flex;align-items:center;gap:6px;">
+              Amex Gold
+              <span style="font-size:9px;background:rgba(95,169,124,0.12);color:var(--success);border:1px solid rgba(95,169,124,0.3);border-radius:2px;padding:2px 6px;font-weight:600;">Paid</span>
+            </div>
+            <div style="font-size:10px;color:var(--success);margin-top:4px;">$350.00 paid · Jun 27, 2026</div>
+          </div>
+          <div style="font-size:11px;color:var(--success);font-family:'JetBrains Mono',monospace;">View card</div>
+        </div>
+      </div>
+    </div>
+    <div class="screen-frame">
+      <div class="screen-bar">
+        <div class="screen-dots"><div class="screen-dot"></div><div class="screen-dot"></div><div class="screen-dot"></div></div>
+        <div class="screen-label">Budget Planning</div>
+      </div>
+      <div class="screen-body">
+        <div class="budget-title">Monthly Budget</div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Food &amp; Dining</span><span class="budget-nums">$380 / $400</span></div><div class="budget-bar"><div class="budget-fill" style="width:95%;background:#C68A3D;"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Transport</span><span class="budget-nums">$142 / $300</span></div><div class="budget-bar"><div class="budget-fill" style="width:47%;background:var(--success);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Shopping</span><span class="budget-nums">$520 / $400</span></div><div class="budget-bar"><div class="budget-fill" style="width:100%;background:var(--danger);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Entertainment</span><span class="budget-nums">$65 / $150</span></div><div class="budget-bar"><div class="budget-fill" style="width:43%;background:var(--success);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Health</span><span class="budget-nums">$210 / $200</span></div><div class="budget-bar"><div class="budget-fill" style="width:100%;background:var(--danger);"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Pricing ───────────────────────────────────────────────── -->
+<section id="pricing">
+  <div style="text-align:center;" class="reveal">
+    <div class="eyebrow" style="margin-bottom:20px;justify-content:center;"><span class="rule"></span> Pricing <span class="rule"></span></div>
+    <h2 class="display section-title" style="margin-left:auto;margin-right:auto;">One price. Forever.</h2>
+    <p class="section-sub" style="margin:0 auto;">No subscription. No renewal. No account. Pay once and Stash is yours — including all future updates to your version.</p>
+  </div>
+  <div class="pricing-card reveal">
+    <div class="pricing-header">
+      <span class="pricing-badge">Stash for Windows · v1.9.8 · Launching soon</span>
+      <div class="pricing-amount">
+        <div class="pricing-dollar">$</div>
+        <div class="pricing-number">24</div>
+        <div style="align-self:flex-end;padding-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--gold-dim)">.99</div>
+      </div>
+      <div class="pricing-once">One-time · <span>Windows 10/11 · 64-bit</span></div>
+    </div>
+    <div class="pricing-body">
+      <ul class="pricing-features">
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Bills, accounts &amp; credit card tracking</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Wallet chain tracking (PayPal, Apple Pay, Venmo)</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Budget planning with category limits</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Savings goals &amp; net worth tracking</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> OCR bill scanning (JPG, PNG, PDF)</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> AES-256 encrypted backups</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> Monthly statement &amp; stats PDF export</li>
+        <li><span class="pricing-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span> 100% offline — no server, no account</li>
+      </ul>
+      <a href="https://tally.so/r/1A5XaQ" target="_blank" rel="noopener" class="btn-buy">Join the Waitlist</a>
+      <div class="pricing-note">Be first to know when Stash — or anything else from Swangentic — is ready.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── About Swangentic ──────────────────────────────────────── -->
+<section id="about" class="section-alt">
+  <svg class="swan-watermark" viewBox="0 0 100 100" style="width:520px;height:520px;right:-80px;top:50%;transform:translateY(-50%);"><use href="#swan-icon"/></svg>
+  <div class="about-content reveal">
+    <div class="eyebrow" style="margin-bottom:20px;"><span class="rule"></span> About Swangentic</div>
+    <h2 class="display section-title">Software built with intention.</h2>
+    <p class="section-sub" style="max-width:none;">Swangentic is an independent software studio focused on building tools that respect your time, your data, and your intelligence.</p>
+    <p class="section-sub" style="max-width:none;">We don't build software to harvest data or lock you into subscriptions. We build software that does one thing well, runs where you need it, and stays out of your way — the same standard we hold for the tools we use ourselves, every day.</p>
+    <p class="section-sub" style="max-width:none;">Stash is the first thing we've built polished enough to share. It won't be the last.</p>
+  </div>
+  <div class="about-visual reveal">
+    <div class="about-card">
+      <div class="about-stat">
+        <div class="about-stat-num">100%</div>
+        <div class="about-stat-label">Offline — no data ever leaves your device</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num">0</div>
+        <div class="about-stat-label">Subscriptions, accounts, or logins required</div>
+      </div>
+      <div class="about-stat">
+        <div class="about-stat-num mono" style="font-size:28px;">v1.9.8</div>
+        <div class="about-stat-label mono" style="font-size:12px;">Current release · Windows 10/11</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FAQ ───────────────────────────────────────────────────── -->
+<section id="faq">
+  <div class="faq-wrap">
+    <div class="reveal">
+      <div class="eyebrow" style="margin-bottom:20px;"><span class="rule"></span> FAQ</div>
+      <h2 class="display section-title">Questions answered.</h2>
+    </div>
+    <div class="faq-grid reveal">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is my financial data really private?<span class="faq-arrow">+</span></button>
+        <div class="faq-a">Yes — completely. Stash stores everything locally on your own machine. There is no server, no cloud sync, no analytics, and no outbound network requests. The app works with no internet connection at all. Your data never leaves your PC.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens if I lose my computer?<span class="faq-arrow">+</span></button>
+        <div class="faq-a">Use Stash's built-in encrypted backup feature (Settings → Backup) to create a password-protected backup file. Save that file to an external drive, USB stick, or anywhere you choose. On a new machine, install Stash and restore from the backup — your data comes back exactly as it was.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Does the $24.99 include future updates?<span class="faq-arrow">+</span></button>
+        <div class="faq-a">Yes — you pay once for the current major version and receive all updates to that version at no extra cost. If a major new version is released in the future, existing customers will be offered an upgrade path at a discounted price.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What Windows versions does Stash support?<span class="faq-arrow">+</span></button>
+        <div class="faq-a">Stash runs on Windows 10 and Windows 11, 64-bit. It is packaged as a standard Windows installer (.exe) and installs like any other desktop application. No administrator rights are required to run it after installation.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I connect Stash to my bank account?<span class="faq-arrow">+</span></button>
+        <div class="faq-a">No — and that's by design. Stash does not connect to any external services. You enter your own data manually or by scanning bill images with the built-in OCR scanner. This keeps your banking credentials completely separate from the app.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Is there a free trial?<span class="faq-arrow">+</span></button>
+        <div class="faq-a">Not currently — but the full feature list is documented on this page, and if you have any questions before purchasing you can reach us at swanny@swangentic.com. We want you to be confident before you buy.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Final CTA ─────────────────────────────────────────────── -->
+<section id="download">
+  <div class="download-bg"><video autoplay muted loop playsinline poster="web/swan-poster.jpg"><source src="web/swan-hero-mobile.mp4" type="video/mp4"></video></div>
+  <div class="download-scrim"></div>
+  <div class="reveal">
+    <div class="version-tag mono">Stash v1.9.8 · Windows 10/11 · 64-bit</div>
+    <h2 class="display">Ready to own your finances?</h2>
+    <p>One download. One payment. Your data, on your machine, forever.</p>
+    <a href="#pricing" class="btn-primary" style="border-color:var(--gold);color:var(--gold);">Get Stash — $24.99</a>
+  </div>
+</section>
+
+<!-- ─── Footer ────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-left">
+    <svg viewBox="0 0 100 100" class="swan-mark" style="opacity:0.6;"><use href="#swan-icon"/></svg>
+    © 2026 <strong>Swangentic</strong>. All rights reserved. · Stash v1.9.8
+  </div>
+  <div class="footer-right">
+    <div class="footer-social">
+      <a href="https://twitter.com/swangentic" target="_blank" rel="noopener noreferrer" aria-label="Swangentic on Twitter"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+      <a href="https://instagram.com/swangentic" target="_blank" rel="noopener noreferrer" aria-label="Swangentic on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://youtube.com/@swangentic" target="_blank" rel="noopener noreferrer" aria-label="Swangentic on YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+    </div>
+    <a href="mailto:swanny@swangentic.com">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Nav background on scroll
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// Reduced motion: pause hero video, keep poster frame
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceMotion) {
+  document.querySelectorAll('video').forEach(v => { v.pause(); v.removeAttribute('autoplay'); });
+}
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('in');
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

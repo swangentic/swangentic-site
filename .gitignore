@@ -1,0 +1,9 @@
+# Raw source footage — not used by the site (web/ has the compressed derivatives)
+swangenticswan.mp4
+
+# Unused logo variant — not referenced anywhere in the current site
+web/logo-full-dark.png
+
+# OS cruft
+.DS_Store
+Thumbs.db

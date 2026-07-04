@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms of Service — Swangentic</title>
+<meta name="description" content="Swangentic's terms of service for Stash." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://swangentic.com/terms.html" />
+<meta property="og:title" content="Terms of Service — Swangentic" />
+<meta property="og:description" content="Swangentic's terms of service for Stash." />
+<meta property="og:image" content="https://swangentic.com/web/swan-poster.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@swangentic" />
+<meta name="twitter:title" content="Terms of Service — Swangentic" />
+<meta name="twitter:description" content="Swangentic's terms of service for Stash." />
+<meta name="twitter:image" content="https://swangentic.com/web/swan-poster.jpg" />
+<link rel="icon" href="favicon.ico" sizes="any" />
+<link rel="icon" href="favicon-32x32.png" type="image/png" sizes="32x32" />
+<link rel="icon" href="favicon-16x16.png" type="image/png" sizes="16x16" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500&family=Jost:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black:       #0A0A09;
+  --black-soft:  #111110;
+  --gold:        #C6A15B;
+  --gold-dim:    #8A703F;
+  --gold-faint:  rgba(198,161,91,0.07);
+  --gold-border: rgba(198,161,91,0.18);
+  --white:       #F4F1EA;
+  --muted:       #A6A192;
+  --muted-dim:   #7A7568;
+  --line:        rgba(244,241,234,0.08);
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Jost', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.display { font-family: 'Bodoni Moda', serif; font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+.eyebrow {
+  font-family: 'Jost', sans-serif; font-size: 12px; font-weight: 500;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.eyebrow .rule { width: 24px; height: 1px; background: var(--gold-dim); display: inline-block; }
+.swan-mark { fill: var(--gold); color: var(--gold); }
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%; height: 68px;
+  background: rgba(10,10,9,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--gold-border);
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo-icon {
+  width: 34px; height: 34px; border: 1px solid var(--gold-border); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; background: var(--black-soft);
+}
+.nav-logo-icon svg { width: 18px; height: 18px; }
+.nav-wordmark { font-family: 'Bodoni Moda', serif; font-size: 15px; font-weight: 700; color: var(--white); letter-spacing: 0.06em; text-transform: uppercase; }
+.nav-by { font-size: 10px; color: var(--gold-dim); letter-spacing: 0.08em; margin-top: 2px; text-transform: uppercase; }
+.btn-nav {
+  padding: 10px 22px; color: var(--gold); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; border-radius: 3px;
+  border: 1px solid var(--gold-border); background: transparent; transition: background 0.2s, border-color 0.2s;
+}
+.btn-nav:hover { background: var(--gold-faint); border-color: var(--gold); }
+
+/* Legal content */
+main { max-width: 720px; margin: 0 auto; padding: 168px 6% 120px; }
+.legal-updated { font-size: 12px; color: var(--muted-dim); margin: 18px 0 48px; }
+.legal-title { font-size: clamp(34px, 5vw, 48px); margin-bottom: 8px; }
+.legal-intro { font-size: 16px; color: var(--muted); line-height: 1.75; margin-bottom: 48px; max-width: 620px; }
+.legal-section { margin-bottom: 40px; }
+.legal-section h2 { font-family: 'Bodoni Moda', serif; font-size: 21px; font-weight: 600; color: var(--white); margin-bottom: 14px; }
+.legal-section p { font-size: 15px; color: var(--muted); line-height: 1.8; max-width: 620px; }
+.legal-section p + p { margin-top: 14px; }
+.legal-back { display: block; margin-bottom: 40px; font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.legal-back:hover { color: var(--gold); }
+
+/* Footer */
+footer {
+  background: var(--black); border-top: 1px solid var(--line); padding: 36px 5%;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.footer-left { display: flex; align-items: center; gap: 12px; font-size: 12.5px; color: var(--muted); }
+.footer-left svg { width: 20px; height: 20px; flex-shrink: 0; }
+.footer-left strong { color: var(--gold-dim); font-weight: 500; }
+.footer-right { display: flex; gap: 26px; }
+.footer-right a { font-size: 12.5px; color: var(--muted); letter-spacing: 0.04em; transition: color 0.2s; }
+.footer-right a:hover { color: var(--white); }
+.footer-social { display: flex; align-items: center; gap: 18px; }
+.footer-social a { display: flex; align-items: center; color: var(--muted); transition: color 0.2s; }
+.footer-social a:hover { color: var(--gold); }
+.footer-social svg { width: 16px; height: 16px; stroke: currentColor; }
+
+@media (max-width: 520px) {
+  main { padding: 140px 6% 88px; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="swan-icon" viewBox="0 0 140 115">
+      <ellipse cx="90" cy="86" rx="42" ry="17"/>
+      <path d="M56 74 C36 58 38 30 58 20 C70 14 66 6 56 2" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="54" cy="6" r="8.5"/>
+      <path d="M48 3 L28 7 L49 12 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><svg viewBox="0 0 100 100" class="swan-mark"><use href="#swan-icon"/></svg></div>
+    <div>
+      <div class="nav-wordmark">Swangentic</div>
+      <div class="nav-by">Stash · Windows App</div>
+    </div>
+  </a>
+  <a href="index.html#pricing" class="btn-nav">Get Stash</a>
+</nav>
+
+<main>
+  <a href="index.html" class="legal-back">← Back to Swangentic</a>
+  <div class="eyebrow"><span class="rule"></span> Legal</div>
+  <h1 class="display legal-title" style="margin-top:16px;">Terms of Service</h1>
+  <div class="legal-updated mono">Last updated: July 3, 2026</div>
+  <p class="legal-intro">These terms cover Stash, the Windows desktop app from Swangentic. By downloading or using Stash, you agree to the terms below.</p>
+
+  <div class="legal-section">
+    <h2>1. License Grant</h2>
+    <p>A one-time purchase gives you a perpetual license to use that major version of Stash. It's yours to keep — there's no subscription, no renewal, and no expiration date on the version you bought.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>2. Updates</h2>
+    <p>All updates to your current major version are included at no additional cost for as long as that version is supported.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>3. Refunds</h2>
+    <p>Once purchases go live, refunds will follow Gumroad's standard refund window and process, unless a more specific Swangentic refund policy is published here first.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>4. Acceptable Use &amp; No Warranty</h2>
+    <p>Stash is provided as-is, without warranty of any kind. Swangentic is not liable for financial decisions you make using information displayed in the app — Stash is a tool for organizing and tracking your own data, not financial advice.</p>
+    <p>You agree not to use Stash for any unlawful purpose or to attempt to reverse-engineer, resell, or redistribute the software outside the license granted to you.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>5. Future Major Versions</h2>
+    <p>If a new major version of Stash is released in the future, existing customers will be offered a discounted upgrade path rather than being asked to pay full price again.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-left">
+    <svg viewBox="0 0 100 100" class="swan-mark" style="opacity:0.6;"><use href="#swan-icon"/></svg>
+    © 2026 <strong>Swangentic</strong>. All rights reserved. · Stash v1.9.8
+  </div>
+  <div class="footer-right">
+    <div class="footer-social">
+      <a href="https://twitter.com/swangentic" target="_blank" rel="noopener noreferrer" aria-label="Swangentic on Twitter"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+      <a href="https://instagram.com/swangentic" target="_blank" rel="noopener noreferrer" aria-label="Swangentic on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://youtube.com/@swangentic" target="_blank" rel="noopener noreferrer" aria-label="Swangentic on YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg></a>
+    </div>
+    <a href="mailto:swanny@swangentic.com">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms</a>
+  </div>
+</footer>
+
+</body>
+</html>
