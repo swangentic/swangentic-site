@@ -402,6 +402,19 @@ section { padding: 120px 5%; position: relative; }
 .budget-nums { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--muted); }
 .budget-bar { height: 5px; background: rgba(244,241,234,0.08); border-radius: 3px; overflow: hidden; }
 .budget-fill { height: 100%; border-radius: 3px; }
+.hero-card { background: linear-gradient(135deg, #131C2E 0%, #1B2A46 100%); border: 1px solid rgba(217,180,91,0.35); border-radius: 6px; padding: 20px; text-align: center; margin-bottom: 12px; }
+.hero-card-label { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,241,234,0.55); margin-bottom: 8px; }
+.hero-card-amount { font-family: 'JetBrains Mono', monospace; font-size: 27px; font-weight: 600; color: var(--gold); }
+.hero-card-sub { font-size: 10px; color: rgba(244,241,234,0.45); margin-top: 7px; }
+.stat-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat-tile { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; }
+.stat-tile-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: flex; align-items: center; gap: 5px; margin-bottom: 6px; white-space: nowrap; }
+.stat-tile-num { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--white); }
+.verified-pill { font-size: 7px; background: rgba(95,169,124,0.12); color: var(--success); border: 1px solid rgba(95,169,124,0.3); border-radius: 2px; padding: 1px 5px; font-weight: 600; letter-spacing: 0; }
+.range-pills { display: flex; gap: 6px; margin-bottom: 14px; }
+.range-pill { font-family: 'JetBrains Mono', monospace; font-size: 9px; padding: 3px 10px; border-radius: 3px; border: 1px solid var(--line); color: var(--muted); }
+.range-pill.active { border-color: var(--gold-border); color: var(--gold); background: var(--gold-faint); }
+.drill-hint { font-size: 9px; font-family: 'JetBrains Mono', monospace; color: var(--gold); }
 
 /* ─── Pricing ────────────────────────────────────────────────── */
 #pricing { text-align: center; }
@@ -563,6 +576,7 @@ footer {
   .hero-cta { flex-direction: column; align-items: flex-start; gap: 16px; }
   .hero-foot { flex-direction: column; align-items: flex-start; gap: 10px; bottom: 24px; }
   .hero-wordmark-icon { display: none; }
+  .stat-tiles { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -613,7 +627,7 @@ footer {
   <div class="hero-scrim"></div>
 
   <div class="hero-top">
-    <div class="eyebrow"><span class="rule"></span> Windows Desktop App · Version 2</div>
+    <div class="eyebrow"><span class="rule"></span> Windows Desktop App</div>
   </div>
 
   <div class="hero-body">
@@ -713,6 +727,21 @@ footer {
       <div class="feature-title">Funding Chain Visualization</div>
       <div class="feature-desc">See exactly how a bill gets paid — Netflix charges PayPal, PayPal draws from Chase — mapped end to end instead of buried in account notes.</div>
     </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg></div>
+      <div class="feature-title">Bank Statement Import</div>
+      <div class="feature-desc">Import a whole bank or credit card statement at once. OCR reads every line, you review and correct in an editable table, and dozens of transactions land in seconds — nothing is ever auto-submitted.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/><path d="M18 16l2 2 3-3" fill="none"/></svg></div>
+      <div class="feature-title">Transactions Ledger</div>
+      <div class="feature-desc">A bank-statement-style record of what actually happened — bill payments, expenses, and income merged into one chronological money-in, money-out feed with monthly net totals.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7"/><path d="M16 13l5 5M21 13v5h-5" fill="none"/></svg></div>
+      <div class="feature-title">Interactive Reports</div>
+      <div class="feature-desc">Spending donuts, category trends, net worth, and budget-vs-actual charts. Click any slice or bar to jump straight to the filtered transactions behind it.</div>
+    </div>
   </div>
 </section>
 
@@ -727,51 +756,44 @@ footer {
     <div class="screen-frame">
       <div class="screen-bar">
         <div class="screen-dots"><div class="screen-dot"></div><div class="screen-dot"></div><div class="screen-dot"></div></div>
-        <div class="screen-label">Credit Card Hub</div>
+        <div class="screen-label">Dashboard</div>
       </div>
       <div class="screen-body">
-        <div class="cc-hub-title">Credit Card Hub <span style="margin-left:auto;font-weight:400;color:var(--muted);text-transform:none;letter-spacing:0;">2 cards · $425.00 due</span></div>
-        <div class="cc-row">
-          <div class="cc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg></div>
-          <div class="cc-info">
-            <div class="cc-name">Chase Sapphire</div>
-            <div class="cc-util">
-              <div class="util-bar"><div class="util-fill" style="width:42%;background:#C68A3D;"></div></div>
-              <span class="cc-pct" style="color:#C68A3D;">42%</span>
-              <span style="font-size:10px;color:var(--muted);">$840 / $2,000</span>
-            </div>
-            <div style="margin-top:8px;display:flex;gap:4px;flex-wrap:wrap;">
-              <span style="font-size:9px;background:var(--gold-faint);border:1px solid var(--gold-border);border-radius:2px;padding:2px 7px;color:var(--muted);">Netflix $15.99</span>
-              <span style="font-size:9px;background:var(--gold-faint);border:1px solid var(--gold-border);border-radius:2px;padding:2px 7px;color:var(--muted);">Spotify $9.99</span>
-            </div>
-          </div>
-          <div class="cc-amt">$263.00</div>
+        <div class="hero-card">
+          <div class="hero-card-label">Safe to Spend Today</div>
+          <div class="hero-card-amount">$1,287.44</div>
+          <div class="hero-card-sub">After 3 unpaid bills ($412.00) due before your next paycheck (Jul 15)</div>
         </div>
-        <div class="cc-row" style="background:rgba(95,169,124,0.05);border-color:rgba(95,169,124,0.2);">
-          <div class="cc-icon" style="background:rgba(95,169,124,0.1);"><svg viewBox="0 0 24 24" style="stroke:var(--success);"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <div class="cc-info">
-            <div class="cc-name" style="display:flex;align-items:center;gap:6px;">
-              Amex Gold
-              <span style="font-size:9px;background:rgba(95,169,124,0.12);color:var(--success);border:1px solid rgba(95,169,124,0.3);border-radius:2px;padding:2px 6px;font-weight:600;">Paid</span>
-            </div>
-            <div style="font-size:10px;color:var(--success);margin-top:4px;">$350.00 paid · Jun 27, 2026</div>
+        <div class="stat-tiles">
+          <div class="stat-tile">
+            <div class="stat-tile-label">Opening Balance <span class="verified-pill">✓ Verified</span></div>
+            <div class="stat-tile-num">$2,450.00</div>
           </div>
-          <div style="font-size:11px;color:var(--success);font-family:'JetBrains Mono',monospace;">View card</div>
+          <div class="stat-tile">
+            <div class="stat-tile-label">Income</div>
+            <div class="stat-tile-num" style="color:var(--success);">$3,120.00</div>
+          </div>
+          <div class="stat-tile">
+            <div class="stat-tile-label">Expenses</div>
+            <div class="stat-tile-num" style="color:var(--danger);">$1,834.20</div>
+          </div>
         </div>
       </div>
     </div>
     <div class="screen-frame">
       <div class="screen-bar">
         <div class="screen-dots"><div class="screen-dot"></div><div class="screen-dot"></div><div class="screen-dot"></div></div>
-        <div class="screen-label">Budget Planning</div>
+        <div class="screen-label">Reports</div>
       </div>
       <div class="screen-body">
-        <div class="budget-title">Monthly Budget</div>
-        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Food &amp; Dining</span><span class="budget-nums">$380 / $400</span></div><div class="budget-bar"><div class="budget-fill" style="width:95%;background:#C68A3D;"></div></div></div>
-        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Transport</span><span class="budget-nums">$142 / $300</span></div><div class="budget-bar"><div class="budget-fill" style="width:47%;background:var(--success);"></div></div></div>
-        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Shopping</span><span class="budget-nums">$520 / $400</span></div><div class="budget-bar"><div class="budget-fill" style="width:100%;background:var(--danger);"></div></div></div>
-        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Entertainment</span><span class="budget-nums">$65 / $150</span></div><div class="budget-bar"><div class="budget-fill" style="width:43%;background:var(--success);"></div></div></div>
-        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Health</span><span class="budget-nums">$210 / $200</span></div><div class="budget-bar"><div class="budget-fill" style="width:100%;background:var(--danger);"></div></div></div>
+        <div class="budget-title">Spending by Category</div>
+        <div class="range-pills"><span class="range-pill active">6M</span><span class="range-pill">12M</span></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Food &amp; Dining</span><span class="budget-nums">$486.20</span></div><div class="budget-bar"><div class="budget-fill" style="width:88%;background:var(--gold);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat" style="color:var(--gold);">Shopping</span><span class="drill-hint">→ view expenses</span></div><div class="budget-bar"><div class="budget-fill" style="width:64%;background:var(--gold-dim);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Transport</span><span class="budget-nums">$212.50</span></div><div class="budget-bar"><div class="budget-fill" style="width:39%;background:rgba(244,241,234,0.35);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Subscriptions</span><span class="budget-nums">$164.93</span></div><div class="budget-bar"><div class="budget-fill" style="width:30%;background:rgba(244,241,234,0.35);"></div></div></div>
+        <div class="budget-row"><div class="budget-row-header"><span class="budget-cat">Health</span><span class="budget-nums">$98.00</span></div><div class="budget-bar"><div class="budget-fill" style="width:18%;background:rgba(244,241,234,0.35);"></div></div></div>
+        <div style="margin-top:10px;font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;">Click any bar to drill into its transactions</div>
       </div>
     </div>
   </div>
@@ -786,7 +808,7 @@ footer {
   </div>
   <div class="pricing-card reveal">
     <div class="pricing-header">
-      <span class="pricing-badge">Stash for Windows · Version 2 · Launching soon</span>
+      <span class="pricing-badge">Stash for Windows · Launching soon</span>
       <div class="pricing-amount">
         <div class="pricing-dollar">$</div>
         <div class="pricing-number">24</div>
@@ -832,7 +854,7 @@ footer {
         <div class="about-stat-label">Subscriptions, accounts, or logins required</div>
       </div>
       <div class="about-stat">
-        <div class="about-stat-num mono" style="font-size:28px;">v2</div>
+        <div class="about-stat-num mono" style="font-size:28px;">v3.0</div>
         <div class="about-stat-label mono" style="font-size:12px;">Current release · Windows 10/11</div>
       </div>
     </div>
@@ -880,7 +902,7 @@ footer {
   <div class="download-bg"><video autoplay muted loop playsinline poster="web/swan-poster.jpg"><source src="web/swan-hero-mobile.mp4" type="video/mp4"></video></div>
   <div class="download-scrim"></div>
   <div class="reveal">
-    <div class="version-tag mono">Stash 2 · Windows 10/11 · 64-bit</div>
+    <div class="version-tag mono">Windows 10/11 · 64-bit</div>
     <h2 class="display">Ready to own your finances?</h2>
     <p>One download. One payment. Your data, on your machine, forever.</p>
     <a href="#pricing" class="btn-primary" style="border-color:var(--gold);color:var(--gold);">Get Stash — $24.99</a>
@@ -891,7 +913,7 @@ footer {
 <footer>
   <div class="footer-left">
     <svg viewBox="0 0 100 100" class="swan-mark" style="opacity:0.6;"><use href="#swan-icon"/></svg>
-    © 2026 <strong>Swangentic</strong>. All rights reserved. · Stash 2
+    © 2026 <strong>Swangentic</strong>. All rights reserved.
   </div>
   <div class="footer-right">
     <div class="footer-social">
